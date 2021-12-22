@@ -45,18 +45,20 @@ class LastMonthRankTest extends EccubeTestCase
 
         $orderStatus = $this->entityManager->find(OrderStatus::class, OrderStatus::DELIVERED);
 
-        $order = $this->createOrder($customer);
-        foreach ($order->getOrderItems() as $orderItem) {
-            if ($orderItem->isProduct()) {
-                $shipping = $orderItem->getShipping();
-                $shipping->setShippingDate($last_month_first);
-                $orderItem
-                    ->setShipping($shipping)
-                    ->setPrice($price)
-                    ->setQuantity($quantity);
+        for($i = 0; $i < 2; $i++) {
+            $order = $this->createOrder($customer);
+            foreach ($order->getOrderItems() as $orderItem) {
+                if ($orderItem->isProduct()) {
+                    $shipping = $orderItem->getShipping();
+                    $shipping->setShippingDate($last_month_first);
+                    $orderItem
+                        ->setShipping($shipping)
+                        ->setPrice($price)
+                        ->setQuantity($quantity);
 
-                $order->setOrderStatus($orderStatus);
-                $this->entityManager->persist($order);
+                    $order->setOrderStatus($orderStatus);
+                    $this->entityManager->persist($order);
+                }
             }
         }
 
@@ -77,6 +79,8 @@ class LastMonthRankTest extends EccubeTestCase
             [1000, 1000, 1, 'last day of previous month', 23, 59, 59, 1],
             [1000, 100, 1, 'last day of previous month', 23, 59, 59, 0],
             [1000, 1000, 1, 'previous month', 0, 0, 0, 1],
+            [1000, 500, 1, 'previous month', 0, 0, 0, 1],
+            [1000, 499, 1, 'previous month', 0, 0, 0, 0],
         ];
     }
 }
