@@ -41,7 +41,7 @@ class LastMonthRankTest extends EccubeTestCase
 
         $customer = $this->createCustomer();
 
-        $last_month_first = (new \DateTimeImmutable($datetime))->setTime($hour, $minute, $second);
+        $shipping_date = (new \DateTimeImmutable($datetime))->setTime($hour, $minute, $second);
 
         $orderStatus = $this->entityManager->find(OrderStatus::class, OrderStatus::DELIVERED);
 
@@ -50,7 +50,7 @@ class LastMonthRankTest extends EccubeTestCase
             foreach ($order->getOrderItems() as $orderItem) {
                 if ($orderItem->isProduct()) {
                     $shipping = $orderItem->getShipping();
-                    $shipping->setShippingDate($last_month_first);
+                    $shipping->setShippingDate($shipping_date);
                     $orderItem
                         ->setShipping($shipping)
                         ->setPrice($price)
