@@ -36,7 +36,7 @@ class LastMonthRank implements RankInterface
         // 会員グループをクリアする
         $customer->getGroups()->clear();
 
-        // 対象の会員ブループが見つかったら登録
+        // 対象の会員グループが見つかったら登録
         $groups = $this->getGroups($customer);
         if ($groups->count() > 0) {
             /** @var Group $group */
